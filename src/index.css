@@ -5,3 +5,40 @@
   font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
     "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
 }
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: rgba(23, 23, 107, 0.795);
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
+body{
+  background-image: url("/bg.jpg");
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  color: white;
+  overflow-x:hidden;
+}
+.container{
+  width: 90vw;
+  height: 90vh;
+  background-color: rgba(23, 23, 107, 0.795);
+  backdrop-filter: blur(19px) saturate(100%);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.144);
+  display: flex;
+}
