@@ -2,7 +2,8 @@ import { useState } from 'react'
 import './login.css'
 import { toast } from 'react-toastify'
 import { createUserWithEmailAndPassword } from 'firebase/auth'
-import { auth } from '../../lib/firebase'
+import { auth, db } from '../../lib/firebase'
+import { doc, setDoc } from 'firebase/firestore'
 
 const Login = () => {
     const [avatar,setAvatar] = useState({
@@ -33,8 +34,16 @@ const Login = () => {
         try{
             const res = await createUserWithEmailAndPassword(auth,email,password)
 
-
-
+            await setDoc(doc(db, "users", res.user.uid), {
+                username,
+                email,
+                id: res.user.uid,
+                blocked:[],
+              });
+              await setDoc(doc(db, "userchats", res.user.uid), {
+                chats:[],
+              });
+              toast.success("Account created, you can login now")
 
         }catch(err){
             console.log(err)
@@ -63,8 +72,8 @@ const Login = () => {
                 <input type="file" name="" id="file" style={{display:'none'}} onChange={handleAvatar}/>
                 <input type="text" name='username' placeholder='Username' />
                 <input type="text" name="email" placeholder='Email'/>
-                <input type="password" name="password" placeholder="password"id="" />
-                <button>Sign in</button>
+                <input type="password" name="password" placeholder="password"id="loginpw" />
+                <button>Sign up</button>
             </form>
         </div>
     </div>

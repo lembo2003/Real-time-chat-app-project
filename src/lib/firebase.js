@@ -13,7 +13,7 @@ import { getStorage } from "firebase/storage";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: import.meta.env.apiKey,
+  apiKey:import.meta.env.VITE_API_KEY,
   authDomain: "reactrealtimechat-54179.firebaseapp.com",
   projectId: "reactrealtimechat-54179",
   storageBucket: "reactrealtimechat-54179.appspot.com",
