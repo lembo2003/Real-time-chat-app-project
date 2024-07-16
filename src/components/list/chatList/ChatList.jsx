@@ -5,8 +5,8 @@ import {useUserStore} from "../../../lib/userStore";
 import { doc, getDoc, onSnapshot } from 'firebase/firestore';
 import { db } from '../../../lib/firebase';
 const ChatList = () => {
-  const [addMode,setAddMode] = useState(false);
   const [chats,setChats] = useState([])
+  const [addMode,setAddMode] = useState(false);
 
   const {currentUser} = useUserStore()
 
@@ -16,7 +16,7 @@ const ChatList = () => {
 
       const promises = items.map(async(item)=>{
         const userDocRef = doc(db, "users", item.receiverId);
-        const userDocSnap = await getDoc(docRef);
+        const userDocSnap = await getDoc(userDocRef);
 
         const user = userDocSnap.data();
 
@@ -24,7 +24,8 @@ const ChatList = () => {
       })
       const chatData = await Promise.all(promises)
 
-      setChats(chatData.sort((a,b)=>b.updatedAt - a.updatedAt))
+      setChats(chatData.sort((a,b)=>b.updatedAt - a.updatedAt));
+      
   });
 
   return ()=>{
@@ -32,6 +33,7 @@ const ChatList = () => {
   }
   },[currentUser.id])
 
+  console.log(chats);
   
 
   return (
@@ -43,16 +45,15 @@ const ChatList = () => {
         </div>
         <img onClick={()=> setAddMode((prev)=>!prev)}src={addMode ? "./minus.png":"./plus.png"} alt="" className='add'/>
       </div>
-      {chats.map((chat)=>{
-
+      {chats.map((chat)=>(
         <div className="item" key={chat.chatId}>
-        <img src="./avatar.png" alt="" />
+        <img src={chat.user.avatar || "./avatar.png"} alt="" />
         <div className="texts">
-          <span>To Beo</span>
-          <p>{chat.lastMessage}</p>
+          <span>{chat.user.username}</span>
+          <p>{chat.lastMessage || "No message yet!"}</p>
         </div>
       </div>
-      })}
+      ))}
       
       {addMode && <AddUser/>}
     </div>
