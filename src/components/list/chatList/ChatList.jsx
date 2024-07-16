@@ -8,6 +8,8 @@ import { db } from '../../../lib/firebase';
 const ChatList = () => {
   const [chats,setChats] = useState([])
   const [addMode,setAddMode] = useState(false);
+  const [input, setInput] = useState("")
+
 
   const {currentUser} = useUserStore()
   const {chatId,changeChat} = useChatStore()
@@ -73,7 +75,7 @@ const ChatList = () => {
       <div className="search">
         <div className="searchBar">
           <img src="./search.png" alt="" />
-          <input type="text" name="" placeholder="Search"id="" />
+          <input type="text" name="" placeholder="Search"id="" onChange={(e)=>setInput(e.target.value)}/>
         </div>
         <img onClick={()=> setAddMode((prev)=>!prev)}src={addMode ? "./minus.png":"./plus.png"} alt="" className='add'/>
       </div>
@@ -83,9 +85,9 @@ const ChatList = () => {
           backgroundColor: chat?.isSeen ? "transparent" : "#5183fe"
         }}
         >
-        <img src={chat.user.avatar || "./avatar.png"} alt="" />
+        <img src={chat.user.blocked.includes(currentUser.id) ? "./avatar.png" : chat.user.avatar || "./avatar.png"} alt="" />
         <div className="texts">
-          <span>{chat.user.username}</span>
+          <span>{chat.user.blocked.includes(currentUser.id) ? "User" : chat.user.username}</span>
           <p>{chat.lastMessage || "No message yet!"}</p>
         </div>
       </div>
