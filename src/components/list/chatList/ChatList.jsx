@@ -69,6 +69,7 @@ const ChatList = () => {
 
   }
   
+  const filterdChats = chats.filter(c=> c.user.username.toLowerCase().includes(input.toLowerCase()))
 
   return (
     <div className='chatList'>
@@ -79,7 +80,7 @@ const ChatList = () => {
         </div>
         <img onClick={()=> setAddMode((prev)=>!prev)}src={addMode ? "./minus.png":"./plus.png"} alt="" className='add'/>
       </div>
-      {chats.map((chat)=>(
+      {filterdChats.map((chat)=>(
         <div className="item" key={chat.chatId} onClick={()=>handleSelect(chat)}
         style={{
           backgroundColor: chat?.isSeen ? "transparent" : "#5183fe"
